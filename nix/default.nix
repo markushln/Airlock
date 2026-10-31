@@ -12,7 +12,7 @@
 }:
 stdenv.mkDerivation {
   pname = "astra-airlock";
-  version = "0-unstable-2025-01-15";
+  version = "1.4.0";
 
   src = ./..;
 
@@ -33,7 +33,7 @@ stdenv.mkDerivation {
   cmakeFlags = [
     "-DFETCHCONTENT_SOURCE_DIR_M3SHAPES_EXTERNAL=${m3shapes}"
     "-DINSTALL_QSCONFDIR=etc/xdg/quickshell/astra-airlock"
-    "-DASTRA_AIRLOCK_VERSION=${version}"
+    "-DASTRA_AIRLOCK_VERSION=1.4.0"
   ];
 
   postInstall = ''
