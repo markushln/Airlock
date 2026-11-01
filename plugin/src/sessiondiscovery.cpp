@@ -30,24 +30,45 @@ void SessionDiscovery::updateDefaultIndex()
             emit defaultIndexChanged();
         }
     } else {
-        int hyprIdx = -1;
+        int hyprlandIdx = -1;
+        int hyprlandUwsmIdx = -1;
         int firstWaylandIdx = -1;
+
         for (int i = 0; i < m_sessions.size(); ++i) {
             const QVariantMap item = m_sessions.at(i).toMap();
+
             const QString key = item.value(QStringLiteral("key")).toString().toLower();
+            const QString name = item.value(QStringLiteral("name")).toString().toLower();
+            const QString exec = item.value(QStringLiteral("exec")).toString().toLower();
             const QString type = item.value(QStringLiteral("type")).toString();
 
-            if (key.contains(QStringLiteral("hyprland")) && hyprIdx == -1) {
-                hyprIdx = i;
+            const bool isHyprland =
+                key.contains(QStringLiteral("hyprland")) ||
+                name.contains(QStringLiteral("hyprland")) ||
+                exec.contains(QStringLiteral("hyprland"));
+
+            const bool isUwsm =
+                key.contains(QStringLiteral("uwsm")) ||
+                name.contains(QStringLiteral("uwsm")) ||
+                exec.contains(QStringLiteral("uwsm"));
+
+            if (isHyprland && isUwsm && hyprlandUwsmIdx == -1) {
+                hyprlandUwsmIdx = i;
+            } else if (isHyprland && !isUwsm && hyprlandIdx == -1) {
+                hyprlandIdx = i;
             }
+
             if (type == QStringLiteral("Wayland") && firstWaylandIdx == -1) {
                 firstWaylandIdx = i;
             }
         }
 
         int target = 0;
-        if (hyprIdx != -1) {
-            target = hyprIdx;
+
+        if (hyprlandIdx != -1) {
+            target = hyprlandIdx;
+        } else if (hyprlandUwsmIdx != -1) {
+            target = hyprlandUwsmIdx;
         } else if (firstWaylandIdx != -1) {
             target = firstWaylandIdx;
         }
