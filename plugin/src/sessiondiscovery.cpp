@@ -91,8 +91,8 @@ void SessionDiscovery::reload()
     if (m_sessions.isEmpty()) {
         // Fallback default session if no desktop files found
         QVariantMap fallback;
-        fallback[QStringLiteral("name")] = QStringLiteral("Hyprland");
-        fallback[QStringLiteral("exec")] = QStringLiteral("Hyprland");
+        fallback[QStringLiteral("name")] = QStringLiteral("Fallback-Hyprland");
+        fallback[QStringLiteral("exec")] = QStringLiteral("start-hyprland");
         fallback[QStringLiteral("type")] = QStringLiteral("Wayland");
         fallback[QStringLiteral("key")] = QStringLiteral("hyprland");
         fallback[QStringLiteral("file")] = QStringLiteral("hyprland.desktop");
